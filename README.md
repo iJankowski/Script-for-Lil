@@ -1,25 +1,28 @@
 # Kindroid Health Sync
 
-Android MVP scaffold for syncing wearable-derived health context to a single Kindroid.
+Android MVP app for sending wearable-derived health context to one Kin through Health Connect.
 
 ## Current State
 
 What works now:
-- Android app scaffold with Jetpack Compose UI
+- modern Jetpack Compose UI with cleaned-up settings and status flow
 - local settings stored in DataStore
-- Health Connect availability check
-- Health Connect permission flow for sleep, steps, and heart rate
-- preview message built from Health Connect data
+- Health Connect availability check and permission flow for sleep, steps, and heart rate
+- preview message built from real Health Connect data
+- manual test send to Kin through the real `POST /v1/send-message`
+- basic WorkManager auto-sync flow using saved settings
+- response diagnostics: API error copy and modal preview of the last successful API response
 - Gradle project builds successfully in Android Studio
 
-What is still a stub:
-- Kindroid API sending
-- background sync via WorkManager
-- final sleep interpretation and production-grade error handling
+Current limitations:
+- auto-sync is still MVP-grade and not deeply observable in the UI
+- sleep selection still uses the latest sleep session, not a stricter "last night" heuristic
+- settings are stored locally in DataStore without extra encryption
+- diagnostics are meant for testing and may be simplified later
 
-## Planned Data Flow
+## Data Flow
 
-`Huawei Health -> Health Sync -> Health Connect -> this app -> Kindroid`
+`Huawei Health -> Health Sync -> Health Connect -> this app -> Kin`
 
 Huawei data is expected to reach Health Connect through Health Sync. This app reads only from Health Connect.
 
@@ -34,9 +37,24 @@ In Android Studio:
 The debug APK is typically generated in:
 - `app/build/outputs/apk/debug/app-debug.apk`
 
+## Testing Notes
+
+For first-time setup on the phone:
+1. Make sure Health Connect is installed and already contains synced data.
+2. Open the app.
+3. Use `Nadaj dostęp` to grant read access for sleep, steps, and heart rate.
+4. If the permission launcher behaves oddly, use `Otwórz Health Connect` and grant access manually.
+5. Fill in the Kindroid API key and `ai_id`.
+6. Use `Wyślij test` to verify end-to-end delivery.
+
+If sending fails:
+- use `Kopiuj błąd` to copy the full stack trace
+- after a successful send, use `Otwórz odpowiedź` to inspect the latest API response
+
 ## Next Steps
 
-- replace the Kindroid stub with a real `POST /v1/send-message`
-- wire the same sending flow into `SyncWorker`
-- make the selected sync interval actually affect WorkManager scheduling
+- make auto-sync status visible in the UI
+- refine quiet-hours UX and validation
 - tighten sleep-session selection so `Sen ostatniej nocy` is semantically correct
+- consider encrypting local sensitive settings if the app moves beyond MVP
+
