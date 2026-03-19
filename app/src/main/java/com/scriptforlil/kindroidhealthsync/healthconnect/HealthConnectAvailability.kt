@@ -12,7 +12,7 @@ enum class HealthConnectAvailability {
 }
 
 object HealthConnectAvailabilityChecker {
-    private const val ProviderPackageName = "com.google.android.apps.healthdata"
+    const val ProviderPackageName = "com.google.android.apps.healthdata"
 
     fun getAvailability(context: Context): HealthConnectAvailability {
         val status = HealthConnectClient.getSdkStatus(context, ProviderPackageName)
@@ -30,4 +30,3 @@ object HealthConnectAvailabilityChecker {
         }
     }
 }
-
