@@ -1,6 +1,7 @@
 package com.scriptforlil.kindroidhealthsync.data.health
 
 import android.content.Context
+import androidx.activity.result.contract.ActivityResultContract
 import androidx.health.connect.client.HealthConnectClient
 import androidx.health.connect.client.PermissionController
 import androidx.health.connect.client.permission.HealthPermission
@@ -24,6 +25,7 @@ class HealthRepository(
     private val appContext = context.applicationContext
     private val client by lazy { HealthConnectClient.getOrCreate(appContext) }
     private val zoneId: ZoneId = ZoneId.systemDefault()
+    private val wakeUpFormatter = DateTimeFormatter.ofPattern("HH:mm")
 
     val requiredPermissions: Set<String> = setOf(
         HealthPermission.getReadPermission(HeartRateRecord::class),
@@ -35,7 +37,11 @@ class HealthRepository(
         return HealthConnectAvailabilityChecker.getAvailability(appContext)
     }
 
-    fun permissionContract() = PermissionController.createRequestPermissionResultContract()
+    fun permissionContract(): ActivityResultContract<Set<String>, Set<String>> {
+        return PermissionController.createRequestPermissionResultContract(
+            HealthConnectAvailabilityChecker.ProviderPackageName
+        )
+    }
 
     suspend fun hasAllPermissions(): Boolean {
         if (getAvailability() != HealthConnectAvailability.Available) return false
@@ -110,7 +116,7 @@ class HealthRepository(
         val totalMinutes = duration.toMinutes().coerceAtLeast(0)
         val hours = totalMinutes / 60
         val minutes = totalMinutes % 60
-        val dateLabel = end.atZone(zoneId).toLocalDate().format(DateTimeFormatter.ofPattern("dd.MM"))
-        return "$hours h $minutes min, zakończony $dateLabel"
+        val wakeUpAt = end.atZone(zoneId).toLocalTime().format(wakeUpFormatter)
+        return "$hours h $minutes min, pobudka o $wakeUpAt"
     }
 }

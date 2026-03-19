@@ -8,6 +8,7 @@ import com.scriptforlil.kindroidhealthsync.data.AppContainer
 import com.scriptforlil.kindroidhealthsync.data.health.HealthSnapshot
 import com.scriptforlil.kindroidhealthsync.domain.MessageComposer
 import com.scriptforlil.kindroidhealthsync.healthconnect.HealthConnectAvailability
+import com.scriptforlil.kindroidhealthsync.sync.SyncScheduler
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -36,6 +37,8 @@ data class UiState(
     val hasHealthPermissions: Boolean = false,
     val healthConnectMessage: String = "Sprawdzanie dostępności Health Connect...",
     val requiredPermissions: Set<String> = emptySet(),
+    val errorDetails: String = "",
+    val lastApiResponse: String = "",
 )
 
 class MainViewModel(
@@ -64,6 +67,14 @@ class MainViewModel(
         return container.healthRepository.permissionContract()
     }
 
+    fun updateSyncInterval(intervalMinutes: Int) {
+        viewModelScope.launch {
+            val updated = uiState.value.settings.copy(syncIntervalMinutes = intervalMinutes)
+            container.settingsRepository.saveSettings(updated)
+            SyncScheduler.schedule(container.appContext, intervalMinutes)
+        }
+    }
+
     fun updateSettings(transform: (SettingsState) -> SettingsState) {
         viewModelScope.launch {
             val current = uiState.value.settings
@@ -83,6 +94,7 @@ class MainViewModel(
                     healthConnectAvailability = availability,
                     hasHealthPermissions = false,
                     previewMessage = "",
+                    errorDetails = "",
                     healthConnectMessage = when (availability) {
                         HealthConnectAvailability.NotInstalled -> "Zainstaluj lub włącz Health Connect na telefonie."
                         HealthConnectAvailability.UpdateRequired -> "Health Connect wymaga aktualizacji."
@@ -106,7 +118,7 @@ class MainViewModel(
 
             if (!hasPermissions) {
                 lastSnapshot = null
-                _uiState.value = _uiState.value.copy(isLoading = false, previewMessage = "")
+                _uiState.value = _uiState.value.copy(isLoading = false, previewMessage = "", errorDetails = "")
                 return@launch
             }
 
@@ -143,7 +155,8 @@ class MainViewModel(
                     isLoading = false,
                     previewMessage = composer.compose(snapshot, _uiState.value.settings),
                     status = "Podgląd bazuje na aktualnych danych z telefonu.",
-                    healthConnectMessage = "Dane z Health Connect zostały odczytane."
+                    healthConnectMessage = "Dane z Health Connect zostały odczytane.",
+                    errorDetails = ""
                 )
             }
             .onFailure {
@@ -151,8 +164,9 @@ class MainViewModel(
                 _uiState.value = _uiState.value.copy(
                     isLoading = false,
                     previewMessage = "",
-                    status = "Błąd odczytu danych zdrowotnych: ${it.message}",
-                    healthConnectMessage = "Nie udało się pobrać danych z Health Connect."
+                    status = "Błąd odczytu danych zdrowotnych.",
+                    healthConnectMessage = "Nie udało się pobrać danych z Health Connect.",
+                    errorDetails = it.stackTraceToString()
                 )
             }
     }
@@ -172,9 +186,11 @@ class MainViewModel(
                 isLoading = false,
                 lastSyncAt = formattedNow,
                 status = result.fold(
-                    onSuccess = { "Testowa wiadomość została przygotowana i wysłana stubem." },
-                    onFailure = { "Błąd testowej wysyłki: ${it.message}" }
-                )
+                    onSuccess = { "Wiadomość została wysłana do Kina." },
+                    onFailure = { "Błąd wysyłki do Kina." }
+                ),
+                errorDetails = result.exceptionOrNull()?.stackTraceToString().orEmpty(),
+                lastApiResponse = result.getOrNull().orEmpty()
             )
         }
     }
