@@ -10,5 +10,5 @@ class AppContainer(context: Context) {
 
     val settingsRepository by lazy { SettingsRepository(appContext) }
     val healthRepository by lazy { HealthRepository(appContext) }
-    val kindroidRepository by lazy { KindroidRepository() }
+    val kindroidRepository by lazy { KindroidRepository(appContext) }
 }

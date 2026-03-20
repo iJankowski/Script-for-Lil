@@ -1,3 +1,169 @@
 <resources>
     <string name="app_name">Kindroid Health Sync</string>
+    <string name="hero_title">Kindroid Health Sync</string>
+    <string name="hero_subtitle">A small app that collects health context from the phone and sends it to one Kin in a natural, readable form.</string>
+    <string name="hero_chip_health_connect">Health Connect</string>
+    <string name="hero_chip_auto_sync">Auto sync %1$d min</string>
+    <string name="hero_chip_one_kin">One Kin</string>
+    <string name="hero_chip_access_ready">Access ready</string>
+    <string name="hero_chip_waiting_permissions">Waiting for permissions</string>
+    <string name="status_label_last">Latest status</string>
+    <string name="status_label_last_sync">Last manual sync</string>
+    <string name="status_label_auto_sync">Last auto-sync</string>
+    <string name="status_label_auto_sync_status">Auto-sync status</string>
+    <string name="status_label_worker_state">Worker state</string>
+    <string name="status_label_next_sync">Next auto-sync</string>
+    <string name="status_label_status">Status</string>
+    <string name="status_live">live</string>
+    <string name="nav_theme">Light / Dark</string>
+    <string name="nav_kin">Kin</string>
+    <string name="nav_settings">Settings</string>
+
+    <string name="section_health_connect_title">Health Connect connection</string>
+    <string name="section_settings_title">Sync settings</string>
+    <string name="section_settings_subtitle">API key, Kin identifier, and the data scope used to build the message.</string>
+    <string name="section_preview_title">Message and status</string>
+    <string name="section_preview_subtitle">Preview of what will reach your Kin, plus manual test send.</string>
+    <string name="kin_placeholder_title">Kin space</string>
+    <string name="kin_space_subtitle">One Kin, one last reply, and a quick jump to edit the setup.</string>
+    <string name="kin_space_name_hint">Saved Kin name</string>
+    <string name="kin_name_missing">No Kin name yet</string>
+    <string name="kin_last_response_title">Last Kin response</string>
+    <string name="kin_last_response_empty">No response saved yet.</string>
+
+    <string name="health_connect_status_ready">Ready</string>
+    <string name="health_connect_status_permissions">Permissions needed</string>
+    <string name="health_connect_status_missing_app">App missing</string>
+    <string name="health_connect_status_update_required">Update required</string>
+    <string name="health_connect_status_not_supported">Not supported</string>
+    <string name="health_connect_hint_manual">If Grant access only blinks, open Health Connect manually and grant access to this app there.</string>
+    <string name="health_connect_message_checking">Checking Health Connect availability…</string>
+    <string name="health_connect_message_install">Install or enable Health Connect on the phone.</string>
+    <string name="health_connect_message_update">Health Connect needs an update.</string>
+    <string name="health_connect_message_not_supported">This device does not support Health Connect.</string>
+    <string name="health_connect_message_available">Health Connect is available.</string>
+    <string name="health_connect_message_ready">Health Connect is ready. Reading data.</string>
+    <string name="health_connect_message_grant">Grant access to sleep, steps, and heart rate in Health Connect.</string>
+    <string name="health_connect_message_loaded">Data from Health Connect was loaded.</string>
+    <string name="health_connect_message_load_failed">Could not read data from Health Connect.</string>
+
+    <string name="button_check">Check</string>
+    <string name="button_grant_access">Grant access</string>
+    <string name="button_open_health_connect">Open Health Connect</string>
+    <string name="button_refresh_preview">Refresh preview</string>
+    <string name="button_send_test">Send test</string>
+    <string name="button_copy_error">Copy error</string>
+    <string name="button_open_response">Open response</string>
+    <string name="button_close">Close</string>
+    <string name="button_edit">Edit</string>
+    <string name="button_save">Save</string>
+    <string name="button_cancel">Cancel</string>
+
+    <string name="label_kin_name">Kin name</string>
+    <string name="value_not_set">Not set yet</string>
+    <string name="dialog_edit_placeholder">Type the new value</string>
+    <string name="dialog_edit_kin_name_title">Enter a new Kin name</string>
+    <string name="dialog_edit_kindroid_api_key_title">Enter a new Kindroid API key</string>
+    <string name="dialog_edit_kindroid_ai_id_title">Enter a new Kindroid ai_id</string>
+    <string name="hint_kin_name">Ava</string>
+    <string name="label_kindroid_api_key">Kindroid API key</string>
+    <string name="label_kindroid_ai_id">Kindroid ai_id</string>
+    <string name="label_quiet_hours">Quiet hours</string>
+    <string name="hint_quiet_hours">23:00-07:00</string>
+    <string name="label_language">App language</string>
+    <string name="language_system">System</string>
+    <string name="language_polish">Polish</string>
+    <string name="language_english">English</string>
+    <string name="label_sync_interval">Automatic sync interval</string>
+    <string name="interval_minutes">%1$d min</string>
+
+    <string name="toggle_sleep_title">Sleep</string>
+    <string name="toggle_sleep_subtitle">Summary of the last night</string>
+    <string name="toggle_activity_title">Activity</string>
+    <string name="toggle_activity_subtitle">Today’s steps and movement</string>
+    <string name="toggle_hr_current_title">Current heart rate</string>
+    <string name="toggle_hr_current_subtitle">Most recent reading</string>
+    <string name="toggle_hr_avg_title">Average heart rate</string>
+    <string name="toggle_hr_avg_subtitle">Average from the last 15 minutes</string>
+
+    <string name="preview_empty">No message preview yet. Refresh phone data and check permissions first.</string>
+    <string name="loading_message">Refreshing or sending in progress.</string>
+    <string name="dialog_api_response_title">Last API response</string>
+
+    <string name="status_never_synced">No sync has been sent yet.</string>
+    <string name="status_none">None</string>
+    <string name="next_sync_now">Now</string>
+    <string name="next_sync_in_minutes">In %1$d min</string>
+    <string name="status_preview_loaded">Preview is based on current phone data.</string>
+    <string name="status_health_connect_unavailable">Health Connect is unavailable.</string>
+    <string name="status_health_permissions_missing">Health permissions are missing.</string>
+    <string name="status_health_read_error">Failed to read health data.</string>
+    <string name="status_send_success">Message was sent to your Kin.</string>
+    <string name="status_send_timeout">Message was likely sent. Check the reply in Kindroid.</string>
+    <string name="status_send_error">Failed to send the message to your Kin.</string>
+
+    <string name="auto_sync_status_never">No automatic sync has run yet.</string>
+    <string name="auto_sync_status_skipped_missing_credentials">Skipped: missing Kindroid API key or ai_id.</string>
+    <string name="auto_sync_status_skipped_quiet_hours">Skipped: currently within quiet hours.</string>
+    <string name="auto_sync_status_skipped_health_connect_unavailable">Skipped: Health Connect is unavailable.</string>
+    <string name="auto_sync_status_skipped_permissions">Skipped: Health Connect permissions are missing.</string>
+    <string name="auto_sync_status_sent">Automatic sync sent a message to your Kin.</string>
+    <string name="auto_sync_status_sent_timeout">Automatic sync likely sent the message. Check the reply in Kindroid.</string>
+    <string name="auto_sync_status_kindroid_error">Automatic sync hit a Kindroid/API error.</string>
+    <string name="auto_sync_status_worker_error">Automatic sync failed inside the worker.</string>
+    <string name="worker_state_idle">No worker request yet.</string>
+    <string name="worker_state_enqueued">Worker is queued.</string>
+    <string name="worker_state_running">Worker is running now.</string>
+    <string name="worker_state_succeeded">Worker finished successfully.</string>
+    <string name="worker_state_failed">Worker failed.</string>
+    <string name="worker_state_blocked">Worker is blocked.</string>
+    <string name="worker_state_cancelled">Worker was cancelled.</string>
+
+    <string name="error_missing_api_or_message">Missing API key, ai_id, or message.</string>
+    <string name="error_empty_response">No response body</string>
+    <string name="error_kindroid_response">Kindroid API returned %1$d: %2$s</string>
+    <string name="error_health_connect_unavailable">Health Connect is unavailable on this device.</string>
+    <string name="error_health_permissions_missing">Missing permissions to read data from Health Connect.</string>
+    <string name="error_network_timeout">Kindroid took too long to respond.</string>
+    <string name="response_timeout_placeholder">Kindroid did not return a response in time. The message was likely sent. Check the reply in the app.</string>
+
+    <string name="sleep_summary">%1$d h %2$d min, wake-up at %3$s</string>
+    <string name="activity_steps">%1$d steps</string>
+
+    <string name="message_intro">My current status update based on watch data.</string>
+    <string name="message_sleep">Sleep last night: %1$s.</string>
+    <string name="message_activity">Activity today: %1$s.</string>
+    <string name="message_heart_rate_now">Heart rate now: %1$d bpm.</string>
+    <string name="message_heart_rate_avg">Average heart rate from the last 15 minutes: %1$d bpm.</string>
+    <string name="message_outro">Treat this as a short context update about how I feel right now.</string>
+
+    <string name="label_message_template">Message template</string>
+    <string name="dialog_edit_message_template_title">Edit message template</string>
+    <string name="label_message_language">Message language</string>
+    <string name="message_template_placeholder">Write your own message template here.</string>
+    <string name="message_template_default">My current status update based on watch data.
+{sleep}
+{activity}
+{heart_rate_now}
+{heart_rate_avg}
+Treat this as a short context update about how I feel right now.</string>
+    <string name="template_token_sleep">Sleep</string>
+    <string name="template_token_activity">Activity</string>
+    <string name="template_token_heart_rate_now">Heart now</string>
+    <string name="template_token_heart_rate_avg">Avg HR</string>
+    <string name="privacy_title">Why we ask for access</string>
+    <string name="privacy_body_1">The app reads sleep, steps, and heart rate from Health Connect only to build a short context message and send it to one Kin.</string>
+    <string name="privacy_body_2">We do not use this data for ads or resale. In this version, data is processed locally on the phone, and only the final message sent to the Kindroid API leaves the device.</string>
 </resources>
+
+
+
+
+
+
+
+
+
+
+
+
