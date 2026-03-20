@@ -54,6 +54,7 @@
     <string name="button_send_test">Send test</string>
     <string name="button_copy_error">Copy error</string>
     <string name="button_open_response">Open response</string>
+    <string name="button_open_sync_history">Check sync history</string>
     <string name="button_close">Close</string>
     <string name="button_edit">Edit</string>
     <string name="button_save">Save</string>
@@ -89,6 +90,10 @@
     <string name="preview_empty">No message preview yet. Refresh phone data and check permissions first.</string>
     <string name="loading_message">Refreshing or sending in progress.</string>
     <string name="dialog_api_response_title">Last API response</string>
+    <string name="dialog_sync_history_title">Sync history</string>
+    <string name="sync_history_empty">No sync entries yet.</string>
+    <string name="sync_type_auto">Automatic</string>
+    <string name="sync_type_manual">Manual</string>
 
     <string name="status_never_synced">No sync has been sent yet.</string>
     <string name="status_none">None</string>
@@ -155,6 +160,8 @@ Treat this as a short context update about how I feel right now.</string>
     <string name="privacy_body_1">The app reads sleep, steps, and heart rate from Health Connect only to build a short context message and send it to one Kin.</string>
     <string name="privacy_body_2">We do not use this data for ads or resale. In this version, data is processed locally on the phone, and only the final message sent to the Kindroid API leaves the device.</string>
 </resources>
+
+
 
 
 

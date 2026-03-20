@@ -10,6 +10,7 @@ import androidx.work.WorkManager
 import com.scriptforlil.kindroidhealthsync.R
 import com.scriptforlil.kindroidhealthsync.data.AppContainer
 import com.scriptforlil.kindroidhealthsync.data.health.HealthSnapshot
+import com.scriptforlil.kindroidhealthsync.data.local.SyncHistoryEntry
 import com.scriptforlil.kindroidhealthsync.data.local.SyncStatusState
 import com.scriptforlil.kindroidhealthsync.domain.MessageComposer
 import com.scriptforlil.kindroidhealthsync.healthconnect.HealthConnectAvailability
@@ -53,6 +54,7 @@ data class UiState(
     val requiredPermissions: Set<String> = emptySet(),
     val errorDetails: String = "",
     val lastApiResponse: String = "",
+    val syncHistory: List<SyncHistoryEntry> = emptyList(),
 )
 
 class MainViewModel(
@@ -112,6 +114,7 @@ class MainViewModel(
                     lastSyncAt = syncStatus.lastManualSyncAt.ifBlank { text(R.string.status_none) },
                     autoSyncAt = syncStatus.lastAutoSyncAt.ifBlank { text(R.string.status_none) },
                     autoSyncStatus = syncStatus.lastAutoSyncStatus.ifBlank { text(R.string.auto_sync_status_never) },
+                    syncHistory = syncStatus.syncHistory,
                 )
                 maybeTriggerStartupSync()
             }
@@ -137,7 +140,7 @@ class MainViewModel(
         viewModelScope.launch {
             val updated = uiState.value.settings.copy(syncIntervalMinutes = intervalMinutes)
             container.settingsRepository.saveSettings(updated)
-            SyncScheduler.schedule(container.appContext, intervalMinutes, runSoon = true)
+            SyncScheduler.schedule(container.appContext, intervalMinutes)
         }
     }
 
@@ -146,7 +149,7 @@ class MainViewModel(
             val current = uiState.value.settings
             val updated = transform(current)
             container.settingsRepository.saveSettings(updated)
-            SyncScheduler.schedule(container.appContext, updated.syncIntervalMinutes, runSoon = true)
+            SyncScheduler.schedule(container.appContext, updated.syncIntervalMinutes)
         }
     }
 
@@ -198,7 +201,7 @@ class MainViewModel(
         val grantedAll = grantedPermissions.containsAll(requiredPermissions)
         _uiState.value = _uiState.value.copy(hasHealthPermissions = grantedAll)
         if (grantedAll) {
-            SyncScheduler.schedule(container.appContext, uiState.value.settings.syncIntervalMinutes, runSoon = true)
+            SyncScheduler.schedule(container.appContext, uiState.value.settings.syncIntervalMinutes)
         }
         refreshHealthConnectState()
     }
@@ -259,15 +262,16 @@ class MainViewModel(
             if (successfulResponse.isNotBlank()) {
                 container.settingsRepository.saveLastKinResponse(successfulResponse)
             }
-            container.settingsRepository.saveManualSync(formattedNow, nowMillis)
+            val manualStatus = when {
+                timedOut -> text(R.string.status_send_timeout)
+                result.isSuccess -> text(R.string.status_send_success)
+                else -> text(R.string.status_send_error)
+            }
+            container.settingsRepository.saveManualSync(formattedNow, nowMillis, manualStatus)
             _uiState.value = _uiState.value.copy(
                 isLoading = false,
                 lastSyncAt = formattedNow,
-                status = when {
-                    timedOut -> text(R.string.status_send_timeout)
-                    result.isSuccess -> text(R.string.status_send_success)
-                    else -> text(R.string.status_send_error)
-                },
+                status = manualStatus,
                 errorDetails = if (result.isSuccess) "" else result.exceptionOrNull()?.stackTraceToString().orEmpty(),
                 lastApiResponse = successfulResponse.ifBlank { _uiState.value.lastApiResponse }
             )
@@ -278,11 +282,7 @@ class MainViewModel(
         if (startupSyncEvaluated || !settingsLoaded || !syncStatusLoaded) return
 
         val intervalMinutes = latestSettings.syncIntervalMinutes.coerceAtLeast(15)
-        val lastSyncMillis = max(latestSyncStatus.lastManualSyncAtMillis, latestSyncStatus.lastAutoSyncAtMillis)
-        val intervalMillis = intervalMinutes * 60_000L
-        val shouldRunSoon = lastSyncMillis == 0L || (System.currentTimeMillis() - lastSyncMillis) >= intervalMillis
-
-        SyncScheduler.schedule(container.appContext, intervalMinutes, runSoon = shouldRunSoon)
+        SyncScheduler.schedule(container.appContext, intervalMinutes)
         startupSyncEvaluated = true
     }
 
@@ -321,6 +321,9 @@ class MainViewModelFactory(
         return MainViewModel(container) as T
     }
 }
+
+
+
 
 
 

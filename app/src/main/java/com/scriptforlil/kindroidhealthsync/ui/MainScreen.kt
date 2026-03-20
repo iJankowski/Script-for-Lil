@@ -68,6 +68,8 @@ import java.time.Duration
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import com.scriptforlil.kindroidhealthsync.R
+import com.scriptforlil.kindroidhealthsync.data.local.SyncHistoryEntry
+import com.scriptforlil.kindroidhealthsync.data.local.SyncHistoryType
 import com.scriptforlil.kindroidhealthsync.domain.MessageComposer
 import com.scriptforlil.kindroidhealthsync.healthconnect.HealthConnectAvailability
 import com.scriptforlil.kindroidhealthsync.healthconnect.HealthConnectNavigation
@@ -164,6 +166,7 @@ fun MainScreen(
                                     isLoading = uiState.isLoading,
                                     errorDetails = uiState.errorDetails,
                                     lastApiResponse = uiState.lastApiResponse,
+                                    syncHistory = uiState.syncHistory,
                                     onRefresh = viewModel::refreshPreview,
                                     onSendTest = viewModel::sendTest,
                                 )
@@ -993,12 +996,68 @@ private fun PreviewCard(
     isLoading: Boolean,
     errorDetails: String,
     lastApiResponse: String,
+    syncHistory: List<SyncHistoryEntry>,
     onRefresh: () -> Unit,
     onSendTest: () -> Unit
 ) {
     var showResponseDialog by remember { mutableStateOf(false) }
+    var showSyncHistoryDialog by remember { mutableStateOf(false) }
     var expanded by rememberSaveable { mutableStateOf(false) }
 
+
+    if (showSyncHistoryDialog) {
+        AlertDialog(
+            onDismissRequest = { showSyncHistoryDialog = false },
+            confirmButton = {
+                Button(onClick = { showSyncHistoryDialog = false }) {
+                    Text(stringResource(R.string.button_close))
+                }
+            },
+            title = { Text(stringResource(R.string.dialog_sync_history_title)) },
+            text = {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(320.dp)
+                        .verticalScroll(rememberScrollState()),
+                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    if (syncHistory.isEmpty()) {
+                        Text(
+                            text = stringResource(R.string.sync_history_empty),
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                    } else {
+                        syncHistory.forEach { entry ->
+                            Card(
+                                shape = RoundedCornerShape(20.dp),
+                                colors = CardDefaults.cardColors(
+                                    containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.65f)
+                                )
+                            ) {
+                                Column(
+                                    modifier = Modifier.padding(14.dp),
+                                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                                ) {
+                                    Text(entry.at, style = MaterialTheme.typography.titleSmall)
+                                    Text(
+                                        text = if (entry.type == SyncHistoryType.AUTO) stringResource(R.string.sync_type_auto) else stringResource(R.string.sync_type_manual),
+                                        style = MaterialTheme.typography.bodySmall,
+                                        color = MaterialTheme.colorScheme.primary
+                                    )
+                                    Text(
+                                        entry.status,
+                                        style = MaterialTheme.typography.bodyMedium,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        )
+    }
     if (showResponseDialog && lastApiResponse.isNotBlank()) {
         AlertDialog(
             onDismissRequest = { showResponseDialog = false },
@@ -1105,6 +1164,7 @@ private fun PreviewCard(
                     ActionButton(label = stringResource(R.string.button_refresh_preview), onClick = onRefresh)
                     ActionButton(label = stringResource(R.string.button_send_test), onClick = onSendTest, strong = true)
                 }
+                ActionButton(label = stringResource(R.string.button_open_sync_history), onClick = { showSyncHistoryDialog = true })
                 if (lastApiResponse.isNotBlank()) {
                     ActionButton(label = stringResource(R.string.button_open_response), onClick = { showResponseDialog = true })
                 }
@@ -1199,11 +1259,13 @@ private fun StatusStrip(
     value: String,
     accent: Color,
     onAccent: Color,
+    onClick: (() -> Unit)? = null,
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .background(accent, RoundedCornerShape(22.dp))
+            .then(if (onClick != null) Modifier.clickable(onClick = onClick) else Modifier)
             .padding(horizontal = 14.dp, vertical = 12.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
@@ -1261,6 +1323,15 @@ private fun ActionButton(label: String, onClick: () -> Unit, strong: Boolean = f
         Text(label)
     }
 }
+
+
+
+
+
+
+
+
+
 
 
 
