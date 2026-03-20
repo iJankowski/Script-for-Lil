@@ -54,6 +54,7 @@
     <string name="button_send_test">Wyślij test</string>
     <string name="button_copy_error">Kopiuj błąd</string>
     <string name="button_open_response">Otwórz odpowiedź</string>
+    <string name="button_open_sync_history">Sprawdź historię synchronizacji</string>
     <string name="button_close">Zamknij</string>
     <string name="button_edit">Edytuj</string>
     <string name="button_save">Zapisz</string>
@@ -89,6 +90,10 @@
     <string name="preview_empty">Brak podglądu wiadomości. Najpierw odśwież dane z telefonu i sprawdź uprawnienia.</string>
     <string name="loading_message">Trwa odświeżanie albo wysyłka.</string>
     <string name="dialog_api_response_title">Ostatnia odpowiedź API</string>
+    <string name="dialog_sync_history_title">Historia synchronizacji</string>
+    <string name="sync_history_empty">Brak wpisów synchronizacji.</string>
+    <string name="sync_type_auto">Automatyczna</string>
+    <string name="sync_type_manual">Ręczna</string>
 
     <string name="status_never_synced">Nie wysłano jeszcze żadnej synchronizacji.</string>
     <string name="status_none">Brak</string>
@@ -155,6 +160,8 @@ Potraktuj to jako krótki kontekst o moim aktualnym samopoczuciu.</string>
     <string name="privacy_body_1">Aplikacja odczytuje sen, kroki i tętno z Health Connect tylko po to, żeby zbudować krótką wiadomość kontekstową i wysłać ją do jednego Kina.</string>
     <string name="privacy_body_2">Nie używamy tych danych do reklam ani sprzedaży. W tej wersji dane są przetwarzane lokalnie na telefonie, a na zewnątrz wychodzi wyłącznie finalna wiadomość wysyłana do API Kindroid.</string>
 </resources>
+
+
 
 
 

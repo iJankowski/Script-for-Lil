@@ -14,12 +14,25 @@ import com.scriptforlil.kindroidhealthsync.ui.SettingsState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
+enum class SyncHistoryType {
+    MANUAL,
+    AUTO,
+}
+
+data class SyncHistoryEntry(
+    val type: SyncHistoryType,
+    val at: String,
+    val atMillis: Long,
+    val status: String,
+)
+
 data class SyncStatusState(
     val lastAutoSyncAt: String = "",
     val lastAutoSyncStatus: String = "",
     val lastAutoSyncAtMillis: Long = 0L,
     val lastManualSyncAt: String = "",
     val lastManualSyncAtMillis: Long = 0L,
+    val syncHistory: List<SyncHistoryEntry> = emptyList(),
 )
 
 class SettingsRepository(context: Context) {
@@ -50,6 +63,7 @@ class SettingsRepository(context: Context) {
             lastAutoSyncAtMillis = prefs[Keys.LastAutoSyncAtMillis] ?: 0L,
             lastManualSyncAt = prefs[Keys.LastManualSyncAt].orEmpty(),
             lastManualSyncAtMillis = prefs[Keys.LastManualSyncAtMillis] ?: 0L,
+            syncHistory = decodeHistory(prefs[Keys.SyncHistory].orEmpty()),
         )
     }
 
@@ -79,13 +93,33 @@ class SettingsRepository(context: Context) {
             prefs[Keys.LastAutoSyncAt] = at
             prefs[Keys.LastAutoSyncAtMillis] = atMillis
             prefs[Keys.LastAutoSyncStatus] = status
+            prefs[Keys.SyncHistory] = encodeHistory(
+                listOf(
+                    SyncHistoryEntry(
+                        type = SyncHistoryType.AUTO,
+                        at = at,
+                        atMillis = atMillis,
+                        status = status,
+                    )
+                ) + decodeHistory(prefs[Keys.SyncHistory].orEmpty())
+            )
         }
     }
 
-    suspend fun saveManualSync(at: String, atMillis: Long) {
+    suspend fun saveManualSync(at: String, atMillis: Long, status: String) {
         dataStore.edit { prefs ->
             prefs[Keys.LastManualSyncAt] = at
             prefs[Keys.LastManualSyncAtMillis] = atMillis
+            prefs[Keys.SyncHistory] = encodeHistory(
+                listOf(
+                    SyncHistoryEntry(
+                        type = SyncHistoryType.MANUAL,
+                        at = at,
+                        atMillis = atMillis,
+                        status = status,
+                    )
+                ) + decodeHistory(prefs[Keys.SyncHistory].orEmpty())
+            )
         }
     }
 
@@ -99,6 +133,30 @@ class SettingsRepository(context: Context) {
 
     suspend fun saveLastKinResponse(response: String) {
         dataStore.edit { prefs -> prefs[Keys.LastKinResponse] = response }
+    }
+
+    private fun encodeHistory(entries: List<SyncHistoryEntry>): String {
+        return entries.take(50).joinToString(HISTORY_ENTRY_SEPARATOR) { entry ->
+            listOf(entry.type.name, entry.atMillis.toString(), entry.at, entry.status)
+                .joinToString(HISTORY_FIELD_SEPARATOR)
+        }
+    }
+
+    private fun decodeHistory(raw: String): List<SyncHistoryEntry> {
+        if (raw.isBlank()) return emptyList()
+
+        return raw.split(HISTORY_ENTRY_SEPARATOR)
+            .mapNotNull { row ->
+                val parts = row.split(HISTORY_FIELD_SEPARATOR)
+                if (parts.size != 4) return@mapNotNull null
+                SyncHistoryEntry(
+                    type = runCatching { SyncHistoryType.valueOf(parts[0]) }.getOrNull() ?: return@mapNotNull null,
+                    atMillis = parts[1].toLongOrNull() ?: 0L,
+                    at = parts[2],
+                    status = parts[3],
+                )
+            }
+            .sortedByDescending { it.atMillis }
     }
 
     private object Keys {
@@ -119,12 +177,16 @@ class SettingsRepository(context: Context) {
         val LastAutoSyncAtMillis = longPreferencesKey("last_auto_sync_at_millis")
         val LastManualSyncAt = stringPreferencesKey("last_manual_sync_at")
         val LastManualSyncAtMillis = longPreferencesKey("last_manual_sync_at_millis")
+        val SyncHistory = stringPreferencesKey("sync_history")
         val DarkThemeEnabled = booleanPreferencesKey("dark_theme_enabled")
         val HeroExpanded = booleanPreferencesKey("hero_expanded")
         val LastKinResponse = stringPreferencesKey("last_kin_response")
     }
 
     companion object {
+        private const val HISTORY_ENTRY_SEPARATOR = "\u001E"
+        private const val HISTORY_FIELD_SEPARATOR = "\u001F"
+
         @Volatile
         private var dataStoreInstance: DataStore<Preferences>? = null
 
