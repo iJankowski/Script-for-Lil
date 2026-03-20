@@ -1,0 +1,169 @@
+<resources>
+    <string name="app_name">Kindroid Health Sync</string>
+    <string name="hero_title">Kindroid Health Sync</string>
+    <string name="hero_subtitle">Mała aplikacja, która zbiera kontekst zdrowotny z telefonu i podaje go jednemu Kinowi w ludzkiej, czytelnej formie.</string>
+    <string name="hero_chip_health_connect">Health Connect</string>
+    <string name="hero_chip_auto_sync">Auto sync %1$d min</string>
+    <string name="hero_chip_one_kin">Jeden Kin</string>
+    <string name="hero_chip_access_ready">Dostęp gotowy</string>
+    <string name="hero_chip_waiting_permissions">Czeka na zgody</string>
+    <string name="status_label_last">Ostatni status</string>
+    <string name="status_label_last_sync">Ostatnia ręczna synchronizacja</string>
+    <string name="status_label_auto_sync">Ostatni auto-sync</string>
+    <string name="status_label_auto_sync_status">Status auto-syncu</string>
+    <string name="status_label_worker_state">Stan workera</string>
+    <string name="status_label_next_sync">Następny auto-sync</string>
+    <string name="status_label_status">Status</string>
+    <string name="status_live">live</string>
+    <string name="nav_theme">Jasny / Ciemny</string>
+    <string name="nav_kin">Kin</string>
+    <string name="nav_settings">Ustawienia</string>
+
+    <string name="section_health_connect_title">Połączenie z Health Connect</string>
+    <string name="section_settings_title">Ustawienia synchronizacji</string>
+    <string name="section_settings_subtitle">Klucz API, identyfikator Kina i zakres danych używany do budowy wiadomości.</string>
+    <string name="section_preview_title">Wiadomość i status</string>
+    <string name="section_preview_subtitle">Podgląd tego, co wyląduje u Kina, plus ręczne wywołanie testowe.</string>
+    <string name="kin_placeholder_title">Strefa Kina</string>
+    <string name="kin_space_subtitle">Jeden Kin, ostatnia odpowiedź i szybki skok do edycji ustawień.</string>
+    <string name="kin_space_name_hint">Zapisane imię Kina</string>
+    <string name="kin_name_missing">Brak imienia Kina</string>
+    <string name="kin_last_response_title">Ostatnia odpowiedź Kina</string>
+    <string name="kin_last_response_empty">Nie ma jeszcze zapisanej odpowiedzi.</string>
+
+    <string name="health_connect_status_ready">Gotowy</string>
+    <string name="health_connect_status_permissions">Wymaga zgód</string>
+    <string name="health_connect_status_missing_app">Brak aplikacji</string>
+    <string name="health_connect_status_update_required">Wymaga aktualizacji</string>
+    <string name="health_connect_status_not_supported">Brak wsparcia</string>
+    <string name="health_connect_hint_manual">Jeśli Nadaj dostęp tylko miga, otwórz Health Connect ręcznie i nadaj dostęp tej aplikacji.</string>
+    <string name="health_connect_message_checking">Sprawdzanie dostępności Health Connect…</string>
+    <string name="health_connect_message_install">Zainstaluj lub włącz Health Connect na telefonie.</string>
+    <string name="health_connect_message_update">Health Connect wymaga aktualizacji.</string>
+    <string name="health_connect_message_not_supported">To urządzenie nie wspiera Health Connect.</string>
+    <string name="health_connect_message_available">Health Connect jest dostępny.</string>
+    <string name="health_connect_message_ready">Health Connect jest gotowy. Odczytuję dane.</string>
+    <string name="health_connect_message_grant">Nadaj dostęp do snu, kroków i tętna w Health Connect.</string>
+    <string name="health_connect_message_loaded">Dane z Health Connect zostały odczytane.</string>
+    <string name="health_connect_message_load_failed">Nie udało się pobrać danych z Health Connect.</string>
+
+    <string name="button_check">Sprawdź</string>
+    <string name="button_grant_access">Nadaj dostęp</string>
+    <string name="button_open_health_connect">Otwórz Health Connect</string>
+    <string name="button_refresh_preview">Odśwież podgląd</string>
+    <string name="button_send_test">Wyślij test</string>
+    <string name="button_copy_error">Kopiuj błąd</string>
+    <string name="button_open_response">Otwórz odpowiedź</string>
+    <string name="button_close">Zamknij</string>
+    <string name="button_edit">Edytuj</string>
+    <string name="button_save">Zapisz</string>
+    <string name="button_cancel">Anuluj</string>
+
+    <string name="label_kin_name">Imię Kina</string>
+    <string name="value_not_set">Jeszcze nie ustawiono</string>
+    <string name="dialog_edit_placeholder">Podaj nową wartość</string>
+    <string name="dialog_edit_kin_name_title">Podaj nowe imię Kina</string>
+    <string name="dialog_edit_kindroid_api_key_title">Podaj nowy Kindroid API key</string>
+    <string name="dialog_edit_kindroid_ai_id_title">Podaj nowe Kindroid ai_id</string>
+    <string name="hint_kin_name">Ava</string>
+    <string name="label_kindroid_api_key">Kindroid API key</string>
+    <string name="label_kindroid_ai_id">Kindroid ai_id</string>
+    <string name="label_quiet_hours">Godziny ciszy</string>
+    <string name="hint_quiet_hours">23:00-07:00</string>
+    <string name="label_language">Język aplikacji</string>
+    <string name="language_system">System</string>
+    <string name="language_polish">Polski</string>
+    <string name="language_english">Angielski</string>
+    <string name="label_sync_interval">Interwał automatycznej synchronizacji</string>
+    <string name="interval_minutes">%1$d min</string>
+
+    <string name="toggle_sleep_title">Sen</string>
+    <string name="toggle_sleep_subtitle">Podsumowanie ostatniej nocy</string>
+    <string name="toggle_activity_title">Aktywność</string>
+    <string name="toggle_activity_subtitle">Dzisiejsze kroki i ruch</string>
+    <string name="toggle_hr_current_title">Tętno teraz</string>
+    <string name="toggle_hr_current_subtitle">Najnowszy pomiar</string>
+    <string name="toggle_hr_avg_title">Średnie tętno</string>
+    <string name="toggle_hr_avg_subtitle">Średnia z ostatnich 15 minut</string>
+
+    <string name="preview_empty">Brak podglądu wiadomości. Najpierw odśwież dane z telefonu i sprawdź uprawnienia.</string>
+    <string name="loading_message">Trwa odświeżanie albo wysyłka.</string>
+    <string name="dialog_api_response_title">Ostatnia odpowiedź API</string>
+
+    <string name="status_never_synced">Nie wysłano jeszcze żadnej synchronizacji.</string>
+    <string name="status_none">Brak</string>
+    <string name="next_sync_now">Teraz</string>
+    <string name="next_sync_in_minutes">Za %1$d min</string>
+    <string name="status_preview_loaded">Podgląd bazuje na aktualnych danych z telefonu.</string>
+    <string name="status_health_connect_unavailable">Health Connect nie jest dostępny.</string>
+    <string name="status_health_permissions_missing">Brakuje zgód do odczytu danych zdrowotnych.</string>
+    <string name="status_health_read_error">Błąd odczytu danych zdrowotnych.</string>
+    <string name="status_send_success">Wiadomość została wysłana do Kina.</string>
+    <string name="status_send_timeout">Wiadomość prawdopodobnie została wysłana. Odpowiedź sprawdź w aplikacji Kindroid.</string>
+    <string name="status_send_error">Błąd wysyłki do Kina.</string>
+
+    <string name="auto_sync_status_never">Auto-sync jeszcze się nie uruchomił.</string>
+    <string name="auto_sync_status_skipped_missing_credentials">Pominięto: brakuje Kindroid API key albo ai_id.</string>
+    <string name="auto_sync_status_skipped_quiet_hours">Pominięto: teraz trwają godziny ciszy.</string>
+    <string name="auto_sync_status_skipped_health_connect_unavailable">Pominięto: Health Connect jest niedostępny.</string>
+    <string name="auto_sync_status_skipped_permissions">Pominięto: brakuje zgód Health Connect.</string>
+    <string name="auto_sync_status_sent">Auto-sync wysłał wiadomość do Kina.</string>
+    <string name="auto_sync_status_sent_timeout">Auto-sync prawdopodobnie wysłał wiadomość. Odpowiedź sprawdź w aplikacji Kindroid.</string>
+    <string name="auto_sync_status_kindroid_error">Auto-sync trafił na błąd Kindroid/API.</string>
+    <string name="auto_sync_status_worker_error">Auto-sync wywalił się wewnątrz workera.</string>
+    <string name="worker_state_idle">Nie ma jeszcze requestu workera.</string>
+    <string name="worker_state_enqueued">Worker jest w kolejce.</string>
+    <string name="worker_state_running">Worker właśnie działa.</string>
+    <string name="worker_state_succeeded">Worker zakończył się sukcesem.</string>
+    <string name="worker_state_failed">Worker zakończył się błędem.</string>
+    <string name="worker_state_blocked">Worker jest zablokowany.</string>
+    <string name="worker_state_cancelled">Worker został anulowany.</string>
+
+    <string name="error_missing_api_or_message">Brakuje API key, ai_id albo wiadomości.</string>
+    <string name="error_empty_response">Brak treści odpowiedzi</string>
+    <string name="error_kindroid_response">Kindroid API zwróciło %1$d: %2$s</string>
+    <string name="error_health_connect_unavailable">Health Connect nie jest dostępny na tym urządzeniu.</string>
+    <string name="error_health_permissions_missing">Brakuje zgód do odczytu danych z Health Connect.</string>
+    <string name="error_network_timeout">Kindroid odpowiadał zbyt długo.</string>
+    <string name="response_timeout_placeholder">Kindroid nie zwrócił odpowiedzi na czas. Wiadomość prawdopodobnie została wysłana. Odpowiedź sprawdź w aplikacji.</string>
+
+    <string name="sleep_summary">%1$d h %2$d min, pobudka o %3$s</string>
+    <string name="activity_steps">%1$d kroków</string>
+
+    <string name="message_intro">Aktualizacja mojego stanu na podstawie danych z zegarka.</string>
+    <string name="message_sleep">Sen ostatniej nocy: %1$s.</string>
+    <string name="message_activity">Aktywność dzisiaj: %1$s.</string>
+    <string name="message_heart_rate_now">Tętno teraz: %1$d bpm.</string>
+    <string name="message_heart_rate_avg">Średnie tętno z ostatnich 15 minut: %1$d bpm.</string>
+    <string name="message_outro">Potraktuj to jako krótki kontekst o moim aktualnym samopoczuciu.</string>
+
+    <string name="label_message_template">Szablon wiadomości</string>
+    <string name="dialog_edit_message_template_title">Edytuj szablon wiadomości</string>
+    <string name="label_message_language">Język wiadomości</string>
+    <string name="message_template_placeholder">Wpisz własny szablon wiadomości.</string>
+    <string name="message_template_default">Aktualizacja mojego stanu na podstawie danych z zegarka.
+{sleep}
+{activity}
+{heart_rate_now}
+{heart_rate_avg}
+Potraktuj to jako krótki kontekst o moim aktualnym samopoczuciu.</string>
+    <string name="template_token_sleep">Sleep</string>
+    <string name="template_token_activity">Activity</string>
+    <string name="template_token_heart_rate_now">Heart now</string>
+    <string name="template_token_heart_rate_avg">Avg HR</string>
+    <string name="privacy_title">Dlaczego prosimy o dostęp</string>
+    <string name="privacy_body_1">Aplikacja odczytuje sen, kroki i tętno z Health Connect tylko po to, żeby zbudować krótką wiadomość kontekstową i wysłać ją do jednego Kina.</string>
+    <string name="privacy_body_2">Nie używamy tych danych do reklam ani sprzedaży. W tej wersji dane są przetwarzane lokalnie na telefonie, a na zewnątrz wychodzi wyłącznie finalna wiadomość wysyłana do API Kindroid.</string>
+</resources>
+
+
+
+
+
+
+
+
+
+
+
+

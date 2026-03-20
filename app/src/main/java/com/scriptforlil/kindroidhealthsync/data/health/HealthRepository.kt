@@ -11,6 +11,7 @@ import androidx.health.connect.client.records.StepsRecord
 import androidx.health.connect.client.request.AggregateRequest
 import androidx.health.connect.client.request.ReadRecordsRequest
 import androidx.health.connect.client.time.TimeRangeFilter
+import com.scriptforlil.kindroidhealthsync.R
 import com.scriptforlil.kindroidhealthsync.healthconnect.HealthConnectAvailability
 import com.scriptforlil.kindroidhealthsync.healthconnect.HealthConnectAvailabilityChecker
 import java.time.Duration
@@ -51,10 +52,10 @@ class HealthRepository(
 
     suspend fun getLatestSnapshot(): HealthSnapshot {
         check(getAvailability() == HealthConnectAvailability.Available) {
-            "Health Connect nie jest dostępny na tym urządzeniu."
+            appContext.getString(R.string.error_health_connect_unavailable)
         }
         check(hasAllPermissions()) {
-            "Brakuje zgód do odczytu danych z Health Connect."
+            appContext.getString(R.string.error_health_permissions_missing)
         }
 
         val now = Instant.now()
@@ -105,7 +106,9 @@ class HealthRepository(
 
         return HealthSnapshot(
             sleepSummary = latestSleep?.let { formatSleepSession(it.startTime, it.endTime) },
-            activitySummary = stepsAggregate[StepsRecord.COUNT_TOTAL]?.toInt()?.let { "$it kroków" },
+            activitySummary = stepsAggregate[StepsRecord.COUNT_TOTAL]?.toInt()?.let {
+                appContext.getString(R.string.activity_steps, it)
+            },
             currentHeartRate = latestHeartRate,
             averageHeartRate15Min = averageHeartRateAggregate[HeartRateRecord.BPM_AVG]?.toInt(),
         )
@@ -117,6 +120,6 @@ class HealthRepository(
         val hours = totalMinutes / 60
         val minutes = totalMinutes % 60
         val wakeUpAt = end.atZone(zoneId).toLocalTime().format(wakeUpFormatter)
-        return "$hours h $minutes min, pobudka o $wakeUpAt"
+        return appContext.getString(R.string.sleep_summary, hours, minutes, wakeUpAt)
     }
 }
